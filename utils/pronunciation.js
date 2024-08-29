@@ -4,12 +4,6 @@ import(/* @vite-ignore */ moduleUrl).then(module => urlsForExpression = module.d
 
 let urlList = null;
 
-// async function fetchAudioUrls() {
-//     const resp = await fetch('/recordUrls.json');
-//     urlList = await resp.json();
-// }
-// fetchAudioUrls();
-
 (async () => {
     const resp = await fetch('/recordUrls.json');
     urlList = await resp.json();
@@ -46,6 +40,8 @@ async function findAudio(word) {
         return;
     }
 
+    if(currentWord === word) return;
+
     currentWord = word;
 
     const compactUrls = urlList[word];
@@ -66,6 +62,7 @@ function play() {
     if(currentWordUrls) {
         playNext();
     } else {
+        if(!urlsForExpression) return;
         currentWordUrls = urlsForExpression(currentWord, true);
         console.log(currentWordUrls);
         playNext();

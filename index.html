@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" href="/favicon.ico">
+    <link rel="icon" href="/public/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EngDic</title>
     <meta name="description" content="My web dictionary, combining several good choises into a perfect one">
@@ -18,51 +18,23 @@
 <body>
     <header>
         <div class="input-plus">
-            <form id="the-form">
-                <input
-                    type="text"
-                    id="the-input"
-                    class="the-input"
-                    @change="handleInput($event.target.value)"
-                    @keyup="$event.code === 'Enter' ? play() : null"
-                >
+            <form id="the-form" class="the-form">
+                <input type="text" id="the-input" class="the-input">
             </form>
             
-            <PlayAudio :query />
+            <button class="speaker" id="speaker">🔊</button>
         </div>
     
         <div class="tabs">
-            <p
-                class="tab"
-                :class="selectedArticle === 'e2u' ? 'selectedTab' : ''"
-                @click="select('e2u')"
-            >
-                e2u
-            </p>
-            <p
-                class="tab"
-                :class="selectedArticle === 'glosbe' ? 'selectedTab' : ''"
-                @click="select('glosbe')"
-            >
-                glosbe
-            </p>
-            <p class="tab" @click="openWindow('google')">
-                google
-            </p>
+            <p class="tab" id="e2u-tab">e2u</p>
+            <p class="tab" id="glosbe-tab">glosbe</p>
+            <p class="tab" id="google-window">google</p>
         </div>
     </header>
     
     <main>
-        <div
-            class="e2u"
-            v-show="selectedArticle === 'e2u'"
-            v-html="e2uArticle"
-        ></div>
-        <div
-            class="glosbe"
-            v-show="selectedArticle === 'glosbe'"
-            v-html="glosbeArticle"
-        ></div>
+        <div class="e2u" id="e2u-article"></div>
+        <div class="glosbe" id="glosbe-article"></div>
     </main>
 </body>
 </html>

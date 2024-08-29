@@ -4,17 +4,36 @@
   font-size: 1.2rem
 }
 
+body {
+  margin: 3px;
+}
+
+.hidden {
+  display: none;
+}
+
 .input-plus {
   display: flex;
   gap: 0.4rem;
 }
-.the-input {
-  font-size: 2rem;
+
+.the-form {
   max-width: calc(100% - 1.4em);
 }
+
+.the-input {
+  font-size: 2rem;
+}
+
+.speaker {
+  background: white;
+  border-width: 0;
+}
+
 .tabs {
  display: flex; 
 }
+
 .tab {
   width: 4em;
   border: 3px solid gray;
