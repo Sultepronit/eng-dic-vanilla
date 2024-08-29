@@ -1,13 +1,68 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/main.js"></script>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EngDic</title>
+    <meta name="description" content="My web dictionary, combining several good choises into a perfect one">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32">
+    <link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16">
+    <meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+    
+    <script type="module" src="/main.js" defer></script>
+</head>
+
+<body>
+    <header>
+        <div class="input-plus">
+            <form id="the-form">
+                <input
+                    type="text"
+                    id="the-input"
+                    class="the-input"
+                    @change="handleInput($event.target.value)"
+                    @keyup="$event.code === 'Enter' ? play() : null"
+                >
+            </form>
+            
+            <PlayAudio :query />
+        </div>
+    
+        <div class="tabs">
+            <p
+                class="tab"
+                :class="selectedArticle === 'e2u' ? 'selectedTab' : ''"
+                @click="select('e2u')"
+            >
+                e2u
+            </p>
+            <p
+                class="tab"
+                :class="selectedArticle === 'glosbe' ? 'selectedTab' : ''"
+                @click="select('glosbe')"
+            >
+                glosbe
+            </p>
+            <p class="tab" @click="openWindow('google')">
+                google
+            </p>
+        </div>
+    </header>
+    
+    <main>
+        <div
+            class="e2u"
+            v-show="selectedArticle === 'e2u'"
+            v-html="e2uArticle"
+        ></div>
+        <div
+            class="glosbe"
+            v-show="selectedArticle === 'glosbe'"
+            v-html="glosbeArticle"
+        ></div>
+    </main>
+</body>
 </html>
