@@ -6,7 +6,8 @@ export default defineConfig({
   plugins: [
     VitePWA({
       registerType: 'autoUpdate',
-      // devOptions: { enabled: true },
+      devOptions: { enabled: true },
+      includeAssets: ['favicon.ico'],
       manifest: {
         "name": "English-Ukrainian Dictionary",
         "short_name": "EngDic",
@@ -41,6 +42,36 @@ export default defineConfig({
         "background_color": "#006600",
         "theme_color": "#006600",
         "description": "My web dictionary, combining several good choises into a perfect one"
+      },
+      workbox: {
+        runtimeCaching: [
+            { // audio-cache
+                urlPattern: ({ request }) => request.destination === 'audio',
+                handler: 'CacheFirst',
+                options: {
+                    cacheName: 'audio-cache',
+                    expiration: {
+                        maxEntries: 200,
+                    },
+                    cacheableResponse: {
+                        statuses: [0, 200]
+                    }
+                }
+            },
+            { // scripts
+                urlPattern: ({ request }) => request.destination === 'script',
+                handler: 'StaleWhileRevalidate',
+                options: {
+                    cacheName: 'scripts',
+                    expiration: {
+                        maxEntries: 10,
+                    },
+                    cacheableResponse: {
+                        statuses: [0, 200]
+                    }
+                }
+            }
+        ]
       }
     })
   ],

@@ -32,13 +32,17 @@ async function selectDic(toBeSelected) {
     }
 }
 
+let lastExpression = '';
 document.getElementById('the-form').addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    console.log(theInput.value);
+    // findAudio(theInput.value);
+    play(theInput.value);
 
-    findAudio(theInput.value);
-    play();
+    if(theInput.value === lastExpression) return;
+    lastExpression = theInput.value;
+
+    console.log(theInput.value);
 
     theInput.select();
 
@@ -47,7 +51,7 @@ document.getElementById('the-form').addEventListener('submit', async (e) => {
     selectDic('e2u');
 });
 
-document.getElementById('speaker').addEventListener('click', () => play());
+document.getElementById('speaker').addEventListener('click', () => play(theInput.value));
 
 tabs.e2u.addEventListener('click', () => selectDic('e2u'));
 tabs.glosbe.addEventListener('click', () => selectDic('glosbe'));

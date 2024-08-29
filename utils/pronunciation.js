@@ -9,8 +9,8 @@ let urlList = null;
     urlList = await resp.json();
 }) ();
 
-let currentWord = '';
-let currentWordUrls = null;
+let currentExpression = '';
+let currentExpressionUrls = null;
 const audio = new Audio();
 
 const urlKeys = {
@@ -25,46 +25,51 @@ let currentIndex = 0;
 
 function playNext() {
     console.log(currentIndex);
-    console.log(currentWordUrls[currentIndex]);
+    console.log(currentExpressionUrls[currentIndex]);
 
-    audio.src = currentWordUrls[currentIndex];
+    audio.src = currentExpressionUrls[currentIndex];
     audio.play();
 
     currentIndex++;
-    if(currentIndex >= currentWordUrls.length) currentIndex = 0; 
+    if(currentIndex >= currentExpressionUrls.length) currentIndex = 0; 
 }
 
-async function findAudio(word) {
+async function findAudio(expression) {
     if(!urlList) {
-        setTimeout(async () => await findAudio(word), 200);
+        setTimeout(async () => await findAudio(expression), 200);
         return;
     }
 
-    if(currentWord === word) return;
+    // if(currentExpression === expression) return;
 
-    currentWord = word;
+    // currentExpression = expression;
 
-    const compactUrls = urlList[word];
+    const compactUrls = urlList[expression];
     if(!compactUrls) {
-        currentWordUrls = null;
+        currentExpressionUrls = null;
         return;
     }
 
-    currentWordUrls = compactUrls.map(compactUrl => {
+    currentExpressionUrls = compactUrls.map(compactUrl => {
         const [encoded, query] = compactUrl.split('*');
         return urlKeys[encoded] + query;
     });
 
-    console.log(currentWordUrls);
+    console.log(currentExpressionUrls);
 }
 
-function play() {
-    if(currentWordUrls) {
+async function play(expression) {
+    if(currentExpression !== expression) {
+        currentExpression = expression;
+        await findAudio(expression);
+    }
+
+    if(currentExpressionUrls) {
         playNext();
     } else {
         if(!urlsForExpression) return;
-        currentWordUrls = urlsForExpression(currentWord, true);
-        console.log(currentWordUrls);
+        currentExpressionUrls = urlsForExpression(currentExpression, true);
+        console.log(currentExpressionUrls);
         playNext();
     }
 }
