@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [
     VitePWA({
       registerType: 'autoUpdate',
-      devOptions: { enabled: true },
+      // devOptions: { enabled: true },
       includeAssets: ['favicon.ico'],
       manifest: {
         "name": "English-Ukrainian Dictionary",
@@ -46,30 +46,38 @@ export default defineConfig({
       workbox: {
         runtimeCaching: [
             { // audio-cache
-                urlPattern: ({ request }) => request.destination === 'audio',
-                handler: 'CacheFirst',
-                options: {
-                    cacheName: 'audio-cache',
-                    expiration: {
-                        maxEntries: 200,
-                    },
-                    cacheableResponse: {
-                        statuses: [0, 200]
-                    }
+              urlPattern: ({ request }) => request.destination === 'audio',
+              handler: 'CacheFirst',
+              options: {
+                cacheName: 'audio-cache',
+                expiration: {
+                  maxEntries: 200,
                 }
+              }
+            },
+            { // articles
+              urlPattern: ({ url }) => url.pathname.includes('/article'),
+              handler: 'CacheFirst',
+              options: {
+                cacheName: 'articles',
+                expiration: {
+                  maxEntries: 200
+                }
+              }
             },
             { // scripts
-                urlPattern: ({ request }) => request.destination === 'script',
-                handler: 'StaleWhileRevalidate',
-                options: {
-                    cacheName: 'scripts',
-                    expiration: {
-                        maxEntries: 10,
-                    },
-                    cacheableResponse: {
-                        statuses: [0, 200]
-                    }
-                }
+              urlPattern: ({ request }) => request.destination === 'script',
+              handler: 'StaleWhileRevalidate',
+              options: {
+                cacheName: 'scripts'
+              }
+            },
+            { // recordUrls
+              urlPattern: ({ url }) => url.pathname.endsWith('/recordUrls.json'),
+              handler: 'CacheFirst',
+              options: {
+                cacheName: 'record-urls'
+              }
             }
         ]
       }
