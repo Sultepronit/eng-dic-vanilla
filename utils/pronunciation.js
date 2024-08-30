@@ -39,11 +39,7 @@ async function findAudio(expression) {
         setTimeout(async () => await findAudio(expression), 200);
         return;
     }
-
-    // if(currentExpression === expression) return;
-
-    // currentExpression = expression;
-
+    
     const compactUrls = urlList[expression];
     if(!compactUrls) {
         currentExpressionUrls = null;
@@ -74,4 +70,4 @@ async function play(expression) {
     }
 }
 
-export { findAudio, play };
+export { play };

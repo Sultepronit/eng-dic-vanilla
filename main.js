@@ -1,7 +1,8 @@
 import './style.css';
 import getArticle from './services/getArticle.js';
-import { findAudio, play } from './utils/pronunciation.js';
+import { play } from './utils/pronunciation.js';
 import openWindow from './utils/openWindow.js';
+import history from './src/history.js';
 
 const dicNames = ['e2u', 'glosbe'];
 const theInput = document.getElementById('the-input');
@@ -36,8 +37,13 @@ let lastExpression = '';
 document.getElementById('the-form').addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    // findAudio(theInput.value);
-    play(theInput.value);
+    const language = /[a-zA-z]/.test(theInput.value) ? 'en' : 'ua';
+    console.log(language);
+
+    if(language === 'en') {
+        play(theInput.value);
+        history.append(theInput.value);
+    }
 
     if(theInput.value === lastExpression) return;
     lastExpression = theInput.value;

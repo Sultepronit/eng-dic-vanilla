@@ -1,4 +1,4 @@
-export default function openWindow(type, inputValue) {
+export default async function openWindow(type, inputValue) {
     const strWindowFeatures = 'location=yes,height=1200,width=500,top=0,left=1700,scrollbars=yes,status=yes';
 
     const URL =
