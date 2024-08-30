@@ -10,7 +10,7 @@ export const history = {
         localStorage.setItem('EngDicHistory', JSON.stringify(this.data));
     },
     get last20() {
-        return this.data.slice(2);
+        return this.data.slice(this.data.length - 20).reverse();
     },
     restoreHistory() {
         const json = localStorage.getItem('EngDicHistory');
