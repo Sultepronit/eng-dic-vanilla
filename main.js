@@ -48,11 +48,12 @@ let lastExpression = '';
 function submitExpression(expression) {
     if(/[a-zA-z]/.test(expression)) {
         play(expression);
-        updateHistory(expression);
     }
 
     if(expression === lastExpression) return;
     lastExpression = expression;
+
+    updateHistory(expression);
 
     console.log(expression);
 
