@@ -17,12 +17,13 @@ body {
   gap: 0.4rem;
 }
 
-.the-form {
-  max-width: calc(100% - 1.4em);
-}
+/* .the-form {
+  max-width: calc(100vw - 1.4em);
+} */
 
 .the-input {
   font-size: 2rem;
+  max-width: calc(100vw - 1.4em);
 }
 
 .speaker {
