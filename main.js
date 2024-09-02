@@ -1,7 +1,7 @@
 import './style.css';
-import getArticle from './services/getArticle.js';
-import { play } from './utils/pronunciation.js';
-import openWindow from './utils/openWindow.js';
+import getArticle from './src/getArticle.js';
+import { play } from './src/pronunciation.js';
+import openWindow from './src/openWindow.js';
 import history from './src/history.js';
 
 // data
@@ -64,7 +64,7 @@ function submitExpression(expression) {
     selectDic('e2u');
 }
 
-// do
+// execute
 window.resizeTo(500, 1200);
 window.moveTo(1700, 0);
 
