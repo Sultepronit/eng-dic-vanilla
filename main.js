@@ -88,6 +88,10 @@ document.getElementById('the-form').addEventListener('submit', (e) => {
     submitExpression(theInput.value);
 });
 
+document.querySelector('body').addEventListener('keyup', (e) => {
+    if(e.code === 'Escape') theInput.select();
+});
+
 document.getElementById('speaker').addEventListener('click', () => play(theInput.value));
 
 tabs.e2u.addEventListener('click', () => selectDic('e2u'));
