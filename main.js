@@ -45,7 +45,7 @@ function updateHistory(expression) {
 }
 
 let lastExpression = '';
-function submitExpression(expression) {
+async function submitExpression(expression) {
     if(/[a-zA-z]/.test(expression)) {
         play(expression);
     }
@@ -61,7 +61,11 @@ function submitExpression(expression) {
 
     articles.e2u.innerHTML = '';
     articles.glosbe.innerHTML = '';
-    selectDic('e2u');
+    await selectDic('e2u');
+    
+    if(articles.e2u.innerHTML === '...') {
+        selectDic('glosbe');
+    }
 }
 
 // execute
