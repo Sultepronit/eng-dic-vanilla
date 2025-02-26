@@ -57,7 +57,7 @@ export default defineConfig({
             },
             { // articles
               // urlPattern: ({ url }) => url.pathname.includes('/article'),
-              urlPattern: ({ url }) => url.pathname.includes('dic='),
+              urlPattern: ({ url }) => url.searchParams.get('dic'),
               handler: 'CacheFirst',
               options: {
                 cacheName: 'articles',
