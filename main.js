@@ -19,6 +19,8 @@ const articles = {
     glosbe: document.getElementById('glosbe-article')
 };
 
+const displaying = { e2u: '', glosbe: '' };
+
 // actions
 async function selectDic(toBeSelected) {
     for(const name of dicNames) {
@@ -30,8 +32,14 @@ async function selectDic(toBeSelected) {
     tabs[toBeSelected].classList.add('selectedTab');
     articles[toBeSelected]?.classList.remove('hidden');
 
-    if(!articles[toBeSelected].innerHTML) {
+    // if(!articles[toBeSelected].innerHTML) {
+    //     articles[toBeSelected].innerHTML = '<i>Loading...</i>';
+    //     articles[toBeSelected].innerHTML = await getArticle(toBeSelected, theInput.value);
+    // }
+
+    if(displaying[toBeSelected] !== theInput.value) {
         articles[toBeSelected].innerHTML = '<i>Loading...</i>';
+        displaying[toBeSelected] = theInput.value;
         articles[toBeSelected].innerHTML = await getArticle(toBeSelected, theInput.value);
     }
 }
@@ -46,6 +54,7 @@ function updateHistory(expression) {
 
 let lastExpression = '';
 async function submitExpression(expression) {
+    // console.log('submit!');
     if(/[a-zA-z]/.test(expression)) {
         play(expression);
     }
@@ -88,12 +97,18 @@ window.moveTo(1700, 0);
 // listen
 document.getElementById('the-form').addEventListener('submit', (e) => {
     e.preventDefault();
-
+    // console.log('And here!');
     submitExpression(theInput.value);
 });
 
-document.querySelector('body').addEventListener('keyup', (e) => {
-    if(e.code === 'Escape') theInput.select();
+// document.querySelector('body').addEventListener('keyup', (e) => {
+document.addEventListener('keyup', (e) => {
+    if (e.code === 'Escape') {
+        theInput.select();
+    } /*else if (e.code === 'Enter') {
+        console.log('here we go!');
+        submitExpression(theInput.value);
+    }*/
 });
 
 document.getElementById('speaker').addEventListener('click', () => play(theInput.value));
