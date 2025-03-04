@@ -45,41 +45,41 @@ export default defineConfig({
       },
       workbox: {
         runtimeCaching: [
-            { // audio-cache
-              urlPattern: ({ request }) => request.destination === 'audio',
-              handler: 'CacheFirst',
-              options: {
-                cacheName: 'audio-cache',
-                expiration: {
-                  maxEntries: 200,
-                }
-              }
-            },
-            { // articles
-              // urlPattern: ({ url }) => url.pathname.includes('/article'),
-              urlPattern: ({ url }) => url.searchParams.get('dic'),
-              handler: 'CacheFirst',
-              options: {
-                cacheName: 'articles',
-                expiration: {
-                  maxEntries: 200
-                }
-              }
-            },
-            { // scripts
-              urlPattern: ({ request }) => request.destination === 'script',
-              handler: 'StaleWhileRevalidate',
-              options: {
-                cacheName: 'scripts'
-              }
-            },
-            { // recordUrls
-              urlPattern: ({ url }) => url.pathname.endsWith('/recordUrls.json'),
-              handler: 'CacheFirst',
-              options: {
-                cacheName: 'record-urls'
+          { // audio-cache
+            urlPattern: ({ request }) => request.destination === 'audio',
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'audio-cache',
+              expiration: {
+                maxEntries: 200,
               }
             }
+          },
+          { // articles
+            // urlPattern: ({ url }) => url.pathname.includes('/article'),
+            urlPattern: ({ url }) => url.searchParams.get('dic'),
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'articles',
+              expiration: {
+                maxEntries: 200
+              }
+            }
+          },
+          { // scripts
+            urlPattern: ({ request }) => request.destination === 'script',
+            handler: 'StaleWhileRevalidate',
+            options: {
+              cacheName: 'scripts'
+            }
+          },
+          { // recordUrls
+            urlPattern: ({ url }) => url.pathname.endsWith('/recordUrls.json'),
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'record-urls'
+            }
+          }
         ]
       }
     })

@@ -5,59 +5,41 @@ import openWindow from './src/openWindow.js';
 import history from './src/history.js';
 
 // data
+const dicNames = ['e2u', 'glosbe'];
 const theInput = document.getElementById('the-input');
 const historyList = document.getElementById('history');
 
 const tabs = {
-    main: document.getElementById('main-tab'),
-    auxilary: document.getElementById('auxilary-tab'),
-    google: document.getElementById('google-tab'),
+    e2u: document.getElementById('e2u-tab'),
+    glosbe: document.getElementById('glosbe-tab'),
+    gtranslate: document.getElementById('google-tab')
 };
 
 const articles = {
-    main: document.getElementById('main-article'),
-    auxilary: document.getElementById('auxilary-article'),
-    gtranslate: document.getElementById('aux-gtranslate'),
+    e2u: document.getElementById('e2u-article'),
     glosbe: document.getElementById('glosbe-article'),
-    google: document.getElementById('google-article'),
+    gtranslate: document.getElementById('google-article')
 };
 
 // actions
-const displaying = { main: '', auxilary: '', google: '' };
-let selected = '';
-let googleOn = false;
-
-async function displayArticle(input, articleName, loadName = articleName) {
-    articles[articleName].innerHTML = '<i>Loading...</i>';
-    articles[articleName].innerHTML = await getArticle(loadName, input);
-}
+const displaying = { e2u: '', glosbe: '', gtranslate: '' };
 
 async function selectDic(toBeSelected) {
-    tabs[selected]?.classList.remove('selectedTab');
-    articles[selected]?.classList.add('hidden');
+    // for(const name of dicNames) {
+    //     if (name !== toBeSelected) {
+    //         tabs[name]?.classList.remove('selectedTab');
+    //         articles[name]?.classList.add('hidden');
+    //     }
+    // }
+    tabs[toBeSelected].classList.add('selectedTab');
+    articles[toBeSelected]?.classList.remove('hidden');
 
-    selected = toBeSelected;
-    tabs[selected].classList.add('selectedTab');
-    articles[selected].classList.remove('hidden');
-
-    googleOn = selected === 'google';
-
-    if(displaying[selected] !== theInput.value) {
-        displaying[selected] = theInput.value;
-        if (selected === 'main') {
-            await displayArticle(theInput.value, 'main', 'e2u');
-        } else if (selected === 'auxilary') {
-            displayArticle(theInput.value, 'gtranslate');
-            displayArticle(theInput.value, 'glosbe');
-        } else {
-            displayArticle(theInput.value, 'google', 'gtranslate');
-        }
+    if(displaying[toBeSelected] !== theInput.value) {
+        articles[toBeSelected].innerHTML = '<i>Loading...</i>';
+        displaying[toBeSelected] = theInput.value;
+        articles[toBeSelected].innerHTML = await getArticle(toBeSelected, theInput.value);
     }
 }
-
-tabs.main.addEventListener('click', () => selectDic('main'));
-tabs.auxilary.addEventListener('click', () => selectDic('auxilary'));
-tabs.google.addEventListener('click', () => selectDic('google'));
 
 function updateHistory(expression) {
     history.append(expression);
@@ -83,15 +65,12 @@ async function submitExpression(expression) {
 
     theInput.select();
 
-    if (googleOn) {
-        selectDic('google');
-        return;
-    }
-
-    await selectDic('main');
+    articles.e2u.innerHTML = '';
+    articles.glosbe.innerHTML = '';
+    await selectDic('e2u');
     
-    if(articles.main.innerHTML === '...') {
-        selectDic('auxilary');
+    if(articles.e2u.innerHTML === '...') {
+        selectDic('glosbe');
     }
 }
 
@@ -113,9 +92,13 @@ window.moveTo(1700, 0);
 }) ();
 
 // listen
+tabs.e2u.addEventListener('click', () => selectDic('e2u'));
+tabs.glosbe.addEventListener('click', () => selectDic('glosbe'));
+tabs.gtranslate.addEventListener('click', () => selectDic('gtranslate'));
 
 document.getElementById('the-form').addEventListener('submit', (e) => {
     e.preventDefault();
+    // console.log('And here!');
     submitExpression(theInput.value);
 });
 
