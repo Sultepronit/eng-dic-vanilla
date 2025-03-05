@@ -1,11 +1,15 @@
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
   font-size: 1.2rem
 }
 
 body {
-  margin: 3px;
+  height: 100dvh;
+  padding: 0.3rem;
+  display: grid;
+  grid-template-rows: auto 1fr;
 }
 
 .hidden {
@@ -13,8 +17,14 @@ body {
 }
 
 .input-plus {
-  display: flex;
-  gap: 0.4rem;
+  width: 100%;
+  /* display: flex; */
+  display: grid;
+  grid-template-columns: 1fr auto;
+  /* grid-template-columns: 1fr 1fr; */
+  gap: 0.2rem;
+  align-items: baseline;
+  /* background-color: yellow; */
 }
 
 /* .the-form {
@@ -22,8 +32,12 @@ body {
 } */
 
 .the-input {
-  font-size: 2rem;
-  max-width: calc(100vw - 1.4em);
+  font-size: 1.7rem;
+  font-family: inherit;
+  /* max-width: calc(100vw - 1.4em); */
+  width: 100%;
+  resize: vertical;
+  padding: 0.05em 0.2em;
 }
 
 .speaker {
@@ -32,22 +46,27 @@ body {
 }
 
 .tabs {
- display: flex; 
+  display: flex; 
+  margin-block: 0.3rem;
 }
 
 .tab {
-  width: 4em;
-  border: 3px solid gray;
-  margin: 0.2rem;
+  width: 4.5em;
+  /* border: 3px solid gray; */
+  /* margin: 0.2rem; */
+  background-color: #dadada;
+  margin-right: 0.3rem;
+  padding-block: 0.1rem;
   text-align: center;
   cursor: pointer;
 }
 .selectedTab {
-  border-color: blue;
+  /* border-color: blue; */
+  background-color: aqua;
 }
 
 main {
-  height: calc(100vh - 5rem);
+  /* height: calc(100vh - 5rem); */
   overflow: auto;
 }
 

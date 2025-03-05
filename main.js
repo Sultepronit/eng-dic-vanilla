@@ -62,16 +62,16 @@ tabs.google.addEventListener('click', () => selectDic('google'));
 function updateHistory(expression) {
     history.append(expression);
 
-    const newItem = document.createElement('option');
-    newItem.value = expression;
-    historyList.prepend(newItem);
+    // const newItem = document.createElement('option');
+    // newItem.value = expression;
+    // historyList.prepend(newItem);
 }
 
 let lastExpression = '';
 async function submitExpression(expression) {
     // console.log('submit!');
     if(/[a-zA-z]/.test(expression)) {
-        play(expression);
+        // play(expression);
     }
 
     if(expression === lastExpression) return;
@@ -95,6 +95,11 @@ async function submitExpression(expression) {
     }
 }
 
+function adjustHeight() {
+    theInput.style.height = 'auto';
+    theInput.style.height = theInput.scrollHeight + 5 + 'px';  
+}
+
 // execute
 window.resizeTo(500, 1200);
 window.moveTo(1700, 0);
@@ -103,19 +108,36 @@ window.moveTo(1700, 0);
     if(!history.lastItem) return;
 
     theInput.value = history.lastItem;
+    adjustHeight();
     submitExpression(history.lastItem);
 
-    let optionList = '';
-    for(const item of history.last20) {
-        optionList += `<option value="${item}">`;
-    }
-    historyList.innerHTML = optionList;
+    // let optionList = '';
+    // for(const item of history.last20) {
+    //     optionList += `<option value="${item}">`;
+    // }
+    // historyList.innerHTML = optionList;
 }) ();
 
 // listen
 
-document.getElementById('the-form').addEventListener('submit', (e) => {
-    e.preventDefault();
+// document.getElementById('the-form').addEventListener('submit', (e) => {
+//     e.preventDefault();
+//     submitExpression(theInput.value);
+// });
+
+// theInput.addEventListener('change', () => {
+//     theInput.value = theInput.value.replaceAll('\n', '');
+//     console.log(theInput.value);
+//     submitExpression(theInput.value);
+// });
+
+theInput.addEventListener('input', () => {
+    const breakRemoved = theInput.value.replaceAll('\n', '');
+    if (theInput.value === breakRemoved) return adjustHeight();
+
+    theInput.value = breakRemoved;
+    adjustHeight();
+
     submitExpression(theInput.value);
 });
 
