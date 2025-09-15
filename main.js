@@ -1,63 +1,74 @@
 import './style.css';
 import getArticle from './src/getArticle.js';
 import { play } from './src/pronunciation.js';
-import openWindow from './src/openWindow.js';
+// import openWindow from './src/openWindow.js';
 import history from './src/history.js';
 
 // data
 const theInput = document.getElementById('the-input');
-const historyList = document.getElementById('history');
+// const historyList = document.getElementById('history');
 
 const tabs = {
     main: document.getElementById('main-tab'),
     auxilary: document.getElementById('auxilary-tab'),
-    google: document.getElementById('google-tab'),
+    // google: document.getElementById('google-tab'),
+    translate: document.getElementById('translate-tab'),
 };
 
 const articles = {
     main: document.getElementById('main-article'),
     auxilary: document.getElementById('auxilary-article'),
-    gtranslate: document.getElementById('aux-gtranslate'),
-    glosbe: document.getElementById('glosbe-article'),
-    google: document.getElementById('google-article'),
+    translate: document.getElementById('translate-article'),
+    // gtranslate: document.getElementById('aux-gtranslate'),
+    // glosbe: document.getElementById('glosbe-article'),
+    // google: document.getElementById('google-article'),
 };
 
 // actions
 const displaying = { main: '', auxilary: '', google: '' };
 let selected = '';
-let googleOn = false;
+let translateOn = false;
 
 async function displayArticle(input, articleName, loadName = articleName) {
     articles[articleName].innerHTML = '<i>Loading...</i>';
     articles[articleName].innerHTML = await getArticle(loadName, input);
 }
 
-async function selectDic(toBeSelected) {
-    tabs[selected]?.classList.remove('selectedTab');
-    articles[selected]?.classList.add('hidden');
+async function setDic(toBeSelected) {
+    // if(displaying[selected] === theInput.value) return;
 
-    selected = toBeSelected;
-    tabs[selected].classList.add('selectedTab');
-    articles[selected].classList.remove('hidden');
+    if (selected !== toBeSelected) {
+        tabs[selected]?.classList.remove('selectedTab');
+        articles[selected]?.classList.add('hidden');
 
-    googleOn = selected === 'google';
+        selected = toBeSelected;
 
-    if(displaying[selected] !== theInput.value) {
+        tabs[selected].classList.add('selectedTab');
+        articles[selected].classList.remove('hidden');
+
+        translateOn = selected === 'translate';
+    }
+
+    if(displaying[selected] === theInput.value) return;
+
+    // if(displaying[selected] !== theInput.value) {
         displaying[selected] = theInput.value;
         if (selected === 'main') {
             await displayArticle(theInput.value, 'main', 'e2u');
         } else if (selected === 'auxilary') {
-            displayArticle(theInput.value, 'gtranslate');
-            displayArticle(theInput.value, 'glosbe');
+            // displayArticle(theInput.value, 'gtranslate');
+            // displayArticle(theInput.value, 'glosbe');
+            displayArticle(theInput.value, 'auxilary', 'gem-en');
         } else {
-            displayArticle(theInput.value, 'google', 'gtranslate');
+            displayArticle(theInput.value, 'translate', 'gtranslate');
         }
-    }
+    // }
 }
 
-tabs.main.addEventListener('click', () => selectDic('main'));
-tabs.auxilary.addEventListener('click', () => selectDic('auxilary'));
-tabs.google.addEventListener('click', () => selectDic('google'));
+tabs.main.addEventListener('click', () => setDic('main'));
+tabs.auxilary.addEventListener('click', () => setDic('auxilary'));
+// tabs.google.addEventListener('click', () => selectDic('google'));
+tabs.translate.addEventListener('click', () => setDic('translate'));
 
 function updateHistory(expression) {
     history.append(expression);
@@ -69,10 +80,10 @@ function updateHistory(expression) {
 
 let lastExpression = '';
 async function submitExpression(expression) {
-    // console.log('submit!');
-    if(/[a-zA-z]/.test(expression)) {
-        // play(expression);
-    }
+    console.log('submit!');
+    // if(/[a-zA-z]/.test(expression)) {
+    //     // play(expression);
+    // }
 
     if(expression === lastExpression) return;
     lastExpression = expression;
@@ -83,21 +94,21 @@ async function submitExpression(expression) {
 
     theInput.select();
 
-    if (googleOn) {
-        selectDic('google');
+    if (translateOn) {
+        setDic('translate');
         return;
     }
 
-    await selectDic('main');
+    await setDic('main');
     
     if(articles.main.innerHTML === '...') {
-        selectDic('auxilary');
+        setDic('auxilary');
     }
 }
 
 function adjustHeight() {
     theInput.style.height = 'auto';
-    theInput.style.height = theInput.scrollHeight + 5 + 'px';  
+    theInput.style.height = theInput.scrollHeight + 2 + 'px';  
 }
 
 // execute
