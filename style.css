@@ -10,7 +10,15 @@ body {
   padding: 0.3rem;
   display: grid;
   grid-template-rows: auto 1fr;
-  font-size: 1.2rem
+  font-size: 1.5rem
+}
+
+h1 {
+  font-size: 1.3em;
+}
+
+h2 {
+  font-size: 1.2em;
 }
 
 .hidden {
@@ -33,7 +41,7 @@ body {
 } */
 
 .the-input {
-  font-size: 1.7rem;
+  font-size: 1.6em;
   font-family: inherit;
   /* max-width: calc(100vw - 1.4em); */
   width: 100%;
