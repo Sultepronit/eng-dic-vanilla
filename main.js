@@ -135,9 +135,9 @@ theInput.addEventListener('input', () => {
     const breakRemoved = theInput.value.replaceAll('\n', '');
     if (theInput.value === breakRemoved) return adjustHeight();
 
+    // we are here -- the Enter was pressed!
     theInput.value = breakRemoved;
     adjustHeight();
-
     submitExpression(theInput.value);
 });
 
@@ -145,10 +145,15 @@ theInput.addEventListener('input', () => {
 document.addEventListener('keyup', (e) => {
     if (e.code === 'Escape') {
         theInput.select();
-    } /*else if (e.code === 'Enter') {
-        console.log('here we go!');
-        submitExpression(theInput.value);
-    }*/
+    } else if (e.code === 'Enter') {
+        const text = window.getSelection().toString().trim();
+        // console.log(text);
+        if (!text) return;
+
+        theInput.value = text;
+        adjustHeight();
+        submitExpression(text);
+    }
 });
 
 document.getElementById('speaker').addEventListener('click', () => play(theInput.value));
