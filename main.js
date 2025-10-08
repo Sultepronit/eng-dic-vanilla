@@ -155,12 +155,11 @@ theInput.addEventListener('input', () => {
     submitExpression(theInput.value);
 });
 
-// document.querySelector('body').addEventListener('keyup', (e) => {
 document.addEventListener('keyup', (e) => {
     if (e.code === 'Escape') {
         theInput.select();
-    } else if (e.code === 'Enter') {
-        const text = window.getSelection().toString().trim();
+    } else if (e.key === 'Enter') {
+        const text = window.getSelection().toString().trim().replace('||', '');
         // console.log(text);
         if (!text) return;
 
