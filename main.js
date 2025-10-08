@@ -13,12 +13,14 @@ const tabs = {
     auxilary: document.getElementById('auxilary-tab'),
     // google: document.getElementById('google-tab'),
     translate: document.getElementById('translate-tab'),
+    uk: document.getElementById('uk-tab'),
 };
 
 const articles = {
     main: document.getElementById('main-article'),
     auxilary: document.getElementById('auxilary-article'),
     translate: document.getElementById('translate-article'),
+    uk: document.getElementById('uk-article'),
     // gtranslate: document.getElementById('aux-gtranslate'),
     // glosbe: document.getElementById('glosbe-article'),
     // google: document.getElementById('google-article'),
@@ -51,24 +53,25 @@ async function setDic(toBeSelected) {
 
     if(displaying[selected] === theInput.value) return;
 
-    // if(displaying[selected] !== theInput.value) {
-        displaying[selected] = theInput.value;
-        if (selected === 'main') {
-            await displayArticle(theInput.value, 'main', 'e2u');
-        } else if (selected === 'auxilary') {
-            // displayArticle(theInput.value, 'gtranslate');
-            // displayArticle(theInput.value, 'glosbe');
-            displayArticle(theInput.value, 'auxilary', 'gem-en');
-        } else {
-            displayArticle(theInput.value, 'translate', 'gtranslate');
-        }
-    // }
+    displaying[selected] = theInput.value;
+    if (selected === 'main') {
+        await displayArticle(theInput.value, 'main', 'e2u');
+    } else if (selected === 'auxilary') {
+        // displayArticle(theInput.value, 'gtranslate');
+        // displayArticle(theInput.value, 'glosbe');
+        displayArticle(theInput.value, 'auxilary', 'gem-en');
+    } else if (selected === 'translate') {
+        displayArticle(theInput.value, 'translate', 'gtranslate');
+    } else {
+        displayArticle(theInput.value, 'uk', 'ua-ua');
+    }
 }
 
 tabs.main.addEventListener('click', () => setDic('main'));
 tabs.auxilary.addEventListener('click', () => setDic('auxilary'));
 // tabs.google.addEventListener('click', () => selectDic('google'));
 tabs.translate.addEventListener('click', () => setDic('translate'));
+tabs.uk.addEventListener('click', () => setDic('uk'));
 
 function updateHistory(expression) {
     history.append(expression);

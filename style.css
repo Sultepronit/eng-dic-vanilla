@@ -61,12 +61,13 @@ h2 {
 }
 
 .tab {
-  width: 4.5em;
+  min-width: 3.5em;
   /* border: 3px solid gray; */
   /* margin: 0.2rem; */
   background-color: #dadada;
-  margin-right: 0.3rem;
-  padding-block: 0.1rem;
+  margin-right: 0.5rem;
+  /* padding-block: 0.1rem; */
+  padding: 0.1rem 0.5em;
   text-align: center;
   cursor: pointer;
 }
@@ -121,4 +122,9 @@ td {
   font-size: 0.7em;
   border-bottom: 2px solid;
   margin-bottom: 0.2rem;
+}
+
+/* https://slovnyk.ua */
+.nagolos {
+  color: red;
 }
