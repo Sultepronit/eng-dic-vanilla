@@ -1,17 +1,17 @@
 import './style.css';
 import getArticle from './src/getArticle.js';
 import { play } from './src/pronunciation.js';
-// import openWindow from './src/openWindow.js';
 import history from './src/history.js';
 
 // data
 const theInput = document.getElementById('the-input');
 // const historyList = document.getElementById('history');
 
+const fixTranslate = document.getElementById('fix-translate');
+
 const tabs = {
     main: document.getElementById('main-tab'),
     auxilary: document.getElementById('auxilary-tab'),
-    // google: document.getElementById('google-tab'),
     translate: document.getElementById('translate-tab'),
     uk: document.getElementById('uk-tab'),
 };
@@ -21,24 +21,19 @@ const articles = {
     auxilary: document.getElementById('auxilary-article'),
     translate: document.getElementById('translate-article'),
     uk: document.getElementById('uk-article'),
-    // gtranslate: document.getElementById('aux-gtranslate'),
-    // glosbe: document.getElementById('glosbe-article'),
-    // google: document.getElementById('google-article'),
 };
 
 // actions
 const displaying = { main: '', auxilary: '', google: '' };
 let selected = '';
-let translateOn = false;
+// let translateOn = false;
 
-async function displayArticle(input, articleName, loadName = articleName) {
+async function displayArticle(input, articleName, urlDic) {
     articles[articleName].innerHTML = '<i>Loading...</i>';
-    articles[articleName].innerHTML = await getArticle(loadName, input);
+    articles[articleName].innerHTML = await getArticle(urlDic, input);
 }
 
 async function setDic(toBeSelected) {
-    // if(displaying[selected] === theInput.value) return;
-
     if (selected !== toBeSelected) {
         tabs[selected]?.classList.remove('selectedTab');
         articles[selected]?.classList.add('hidden');
@@ -48,22 +43,23 @@ async function setDic(toBeSelected) {
         tabs[selected].classList.add('selectedTab');
         articles[selected].classList.remove('hidden');
 
-        translateOn = selected === 'translate';
+        // translateOn = selected === 'translate';
     }
 
     if(displaying[selected] === theInput.value) return;
 
     displaying[selected] = theInput.value;
     if (selected === 'main') {
-        await displayArticle(theInput.value, 'main', 'e2u');
+        // displayArticle(theInput.value, 'main', 'e2u');
+        await displayArticle(theInput.value, 'main', 'grabber/e2u');
     } else if (selected === 'auxilary') {
-        // displayArticle(theInput.value, 'gtranslate');
-        // displayArticle(theInput.value, 'glosbe');
-        displayArticle(theInput.value, 'auxilary', 'gem-en');
+        displayArticle(theInput.value, 'auxilary', 'artificial/translate-en-uk');
     } else if (selected === 'translate') {
-        displayArticle(theInput.value, 'translate', 'gtranslate');
+        // displayArticle(theInput.value, 'translate', 'gtranslate');
+        displayArticle(theInput.value, 'translate', 'gtranslate/en-uk');
     } else {
-        displayArticle(theInput.value, 'uk', 'ua-ua');
+        // displayArticle(theInput.value, 'uk', 'ua-ua');
+        displayArticle(theInput.value, 'uk', 'grabber/slovnyk');
     }
 }
 
@@ -97,15 +93,18 @@ async function submitExpression(expression) {
 
     theInput.select();
 
-    if (translateOn) {
+    // if (translateOn) {
+    if(fixTranslate.checked) {
         setDic('translate');
         return;
     }
 
     await setDic('main');
     
+    console.log(articles.main.innerHTML);
     if(articles.main.innerHTML === '...') {
-        setDic('auxilary');
+        // setDic('auxilary', true);
+        setDic('translate');
     }
 }
 
@@ -170,7 +169,3 @@ document.addEventListener('keyup', (e) => {
 });
 
 document.getElementById('speaker').addEventListener('click', () => play(theInput.value));
-
-// document.getElementById('google-window').addEventListener('click', () => {
-//     openWindow('google', theInput.value);
-// });
