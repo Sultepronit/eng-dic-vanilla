@@ -57,7 +57,8 @@ export default defineConfig({
           },
           { // articles
             // urlPattern: ({ url }) => url.pathname.includes('/article'),
-            urlPattern: ({ url }) => url.searchParams.get('dic'),
+            // urlPattern: ({ url }) => url.searchParams.get('dic'),
+            urlPattern: ({ url }) => url.searchParams.get('request'),
             handler: 'CacheFirst',
             options: {
               cacheName: 'articles',
@@ -66,7 +67,7 @@ export default defineConfig({
               }
             }
           },
-          { // scripts
+          { // scripts // WHAT SCRIPTS????
             urlPattern: ({ request }) => request.destination === 'script',
             handler: 'StaleWhileRevalidate',
             options: {
