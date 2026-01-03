@@ -1,7 +1,8 @@
 import './style.css';
-import getArticle from './src/getArticle.js';
+import fetchArticle from './src/fetchArticle.js';
 import { play } from './src/pronunciation.js';
 import history from './src/history.js';
+import fetchFreeDic from './src/fetchFreeDic.js';
 
 // data
 const theInput = document.getElementById('the-input');
@@ -18,6 +19,9 @@ const tabs = {
 
 const articles = {
     main: document.getElementById('main-article'),
+    mainMain: document.getElementById('main-main'),
+    explanatory: document.getElementById('explanatory'),
+    mainAux: document.getElementById('main-aux'),
     auxilary: document.getElementById('auxilary-article'),
     translate: document.getElementById('translate-article'),
     uk: document.getElementById('uk-article'),
@@ -30,7 +34,38 @@ let selected = '';
 
 async function displayArticle(input, articleName, urlDic) {
     articles[articleName].innerHTML = '<i>Loading...</i>';
-    articles[articleName].innerHTML = await getArticle(urlDic, input);
+    articles[articleName].innerHTML = await fetchArticle(urlDic, input);
+}
+
+let noMain = true;
+async function displayMainArticle(input) {
+    noMain = true;
+    articles.mainMain.innerHTML = '<i>Loading...</i>';
+    articles.mainAux.innerHTML = '';
+    // articles.mainMain.innerHTML = await fetchArticle('grabber/e2u', input);
+
+    if(/[a-zA-z]/.test(input)) {
+        articles.explanatory.innerHTML = '<i>Loading...</i>';
+        fetchFreeDic(input).then(re => {
+            if (re !== '...') noMain = false;
+            articles.explanatory.innerHTML = re;
+        })
+        // const re = await fetchFreeDic(input);
+        // articles.explanatory.innerHTML = re;
+    } else {
+        articles.explanatory.innerHTML = '';
+    }
+
+    const resp = await fetchArticle('grabber/e2u', input);
+    if (resp === '...') {
+        articles.mainMain.innerHTML = '...';
+    } else {
+        noMain = false;
+        const result = JSON.parse(resp);
+        console.log(result);
+        articles.mainMain.innerHTML = result.main || '...';
+        articles.mainAux.innerHTML = result.other + result.context;
+    }
 }
 
 async function setDic(toBeSelected) {
@@ -51,7 +86,8 @@ async function setDic(toBeSelected) {
     displaying[selected] = theInput.value;
     if (selected === 'main') {
         // displayArticle(theInput.value, 'main', 'e2u');
-        await displayArticle(theInput.value, 'main', 'grabber/e2u');
+        // await displayArticle(theInput.value, 'main', 'grabber/e2u');
+        await displayMainArticle(theInput.value);
     } else if (selected === 'auxilary') {
         displayArticle(theInput.value, 'auxilary', 'artificial/translate-en-uk');
     } else if (selected === 'translate') {
@@ -101,8 +137,9 @@ async function submitExpression(expression) {
 
     await setDic('main');
     
-    console.log(articles.main.innerHTML);
-    if(articles.main.innerHTML === '...') {
+    // console.log(articles.main.innerHTML);
+    // if(articles.main.innerHTML === '...') {
+    if(noMain) {
         // setDic('auxilary', true);
         setDic('translate');
     }

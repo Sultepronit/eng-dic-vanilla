@@ -97,7 +97,7 @@ hr {
   width: 100%;
 } */
 
-/* e2u */
+/* e2u ------------------------------- */
 
 .result_row_main, .result_row {
   border: 2px solid green;
@@ -106,30 +106,20 @@ hr {
   margin-bottom: 0.3em;
 }
 
-.other .result_row_main  {
+/* .other .result_row_main  { */
+#main-aux .result_row_main  {
   border-color: orange;
 }
 
 .result_row {
   border-color: red;
 }
-/* .other {
-  border-left: 4px solid orange;
-} */
-
-/* .context {
-  border-left: 4px solid red;
-} */
-
-/* td {
-  border-bottom: 2px solid;
-} */
 
 .result_row .found {
   color: blue;
 }
 
-/* https://slovnyk.ua */
+/* https://slovnyk.ua ------------------------ */
 .nagolos {
   color: red;
 }
