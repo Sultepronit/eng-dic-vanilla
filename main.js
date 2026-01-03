@@ -38,25 +38,19 @@ async function displayArticle(input, articleName, urlDic) {
 }
 
 let noMain = true;
-async function displayMainArticle(input) {
-    noMain = true;
-    articles.mainMain.innerHTML = '<i>Loading...</i>';
-    articles.mainAux.innerHTML = '';
-    // articles.mainMain.innerHTML = await fetchArticle('grabber/e2u', input);
-
-    if(/[a-zA-z]/.test(input)) {
+async function displayExplanatory(input) {
+    if(/[a-zA-Z]/.test(input)) {
         articles.explanatory.innerHTML = '<i>Loading...</i>';
-        fetchFreeDic(input).then(re => {
-            if (re !== '...') noMain = false;
-            articles.explanatory.innerHTML = re;
-        })
-        // const re = await fetchFreeDic(input);
-        // articles.explanatory.innerHTML = re;
+        const re = await fetchFreeDic(input);
+        if (re !== '...') noMain = false;
+        articles.explanatory.innerHTML = re;
     } else {
         articles.explanatory.innerHTML = '';
     }
+}
 
-    const resp = await fetchArticle('grabber/e2u', input);
+async function displayE2u(input) {
+     const resp = await fetchArticle('grabber/e2u', input);
     if (resp === '...') {
         articles.mainMain.innerHTML = '...';
     } else {
@@ -66,6 +60,17 @@ async function displayMainArticle(input) {
         articles.mainMain.innerHTML = result.main || '...';
         articles.mainAux.innerHTML = result.other + result.context;
     }
+}
+
+async function displayMainArticle(input) {
+    noMain = true;
+    articles.mainMain.innerHTML = '<i>Loading...</i>';
+    articles.mainAux.innerHTML = '';
+
+    await Promise.all([
+        displayE2u(input),
+        displayExplanatory(input)
+    ]);
 }
 
 async function setDic(toBeSelected) {

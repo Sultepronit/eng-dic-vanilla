@@ -88,10 +88,10 @@ main {
   /* margin-bottom: 0.5em; */
   margin: 0.1em 0.2em 0.5em;
 }
-
+/* 
 hr {
   margin-bottom: 0.5em;
-}
+} */
 
 /* table {
   width: 100%;
@@ -99,7 +99,7 @@ hr {
 
 /* e2u ------------------------------- */
 
-.result_row_main, .result_row {
+.result_row_main, .result_row, #explanatory {
   border: 2px solid green;
   border-radius: 6px;
   padding: 0.3em;
@@ -116,6 +116,43 @@ hr {
 }
 
 .result_row .found {
+  color: blue;
+}
+
+/* free dic ---------------------------------- */
+#explanatory {
+  border-color: blue;
+}
+
+.synonyms {
+  color: green;
+}
+
+.synonyms::before {
+  content: "synonyms: ";
+  font-weight: bold;
+}
+
+.antonyms {
+  color: red;
+}
+
+.antonyms::before {
+  content: "antonyms: ";
+  font-weight: bold;
+}
+
+.definition {
+  font-style: italic;
+}
+
+.sub {
+  padding-left: 1.5em; 
+}
+
+.example {
+  padding-left: 1.5em; 
+  font-style: italic;
   color: blue;
 }
 
