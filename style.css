@@ -124,6 +124,11 @@ hr {
   border-color: blue;
 }
 
+.space {
+  display: inline-block;
+  width: 1em;
+}
+
 .synonyms {
   color: green;
 }
@@ -143,7 +148,8 @@ hr {
 }
 
 .definition {
-  font-style: italic;
+  /* font-style: italic; */
+  margin-top: 0.5em;
 }
 
 .sub {
