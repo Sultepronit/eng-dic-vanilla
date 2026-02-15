@@ -52,13 +52,21 @@ export default defineConfig({
               cacheName: 'audio-cache',
               expiration: {
                 maxEntries: 200,
+              },
+              cacheableResponse: {
+                statuses: [0, 200]
               }
             }
           },
           { // articles
             // urlPattern: ({ url }) => url.pathname.includes('/article'),
             // urlPattern: ({ url }) => url.searchParams.get('dic'),
-            urlPattern: ({ url }) => url.searchParams.get('request'),
+            // urlPattern: ({ url }) => url.searchParams.get('request'),
+            urlPattern: ({ url }) => {
+              const myApi = url.searchParams.get('request');
+              const freeDicApi = url.hostname === 'api.dictionaryapi.dev';
+              return myApi || freeDicApi;
+            },
             handler: 'CacheFirst',
             options: {
               cacheName: 'articles',
