@@ -1,18 +1,8 @@
-import setPause from "./setPause";
-
-let urlsForExpression = null;
-const moduleUrl = import.meta.env.VITE_MY_SYNTH_FN;
-import(/* @vite-ignore */ moduleUrl).then(module => urlsForExpression = module.default);
-
-let urlList = null;
-(async () => {
-    const resp = await fetch('/recordUrls.json');
-    urlList = await resp.json();
-}) ();
-
-let currentExpression = '';
-let currentExpressionUrls = null;
-const audio = new Audio();
+async function loadUrlList() {
+    const resp = await fetch("/recordUrls.json");
+    return await resp.json();
+}
+const urlListPromise = loadUrlList();
 
 const urlKeys = {
 	"a": "https://s3.amazonaws.com/audio.vocabulary.com/1.0/us/",
@@ -22,44 +12,65 @@ const urlKeys = {
 	"ob": "https://www.onelook.com/pronounce/macmillan/UK/"
 };
 
-async function findAudio(expression) {
-    if(!urlList || !urlsForExpression) {
-        await setPause(400);
-        return findAudio(expression);
-    }
-
+async function getVerifiedRecords(expression) {
+    const urlList = await urlListPromise;
     const compactUrls = urlList[expression];
+    if (!compactUrls) return [];
 
-    if(compactUrls) {
-        currentExpressionUrls = compactUrls.map(compactUrl => {
-            const [encoded, query] = compactUrl.split('*');
-            return urlKeys[encoded] + query;
+    const re = [];
+    for (const url of compactUrls) {
+        const [a, b] = url.split("*");
+        re.push({
+            url: `${urlKeys[a]}${b}`,
+            type: "verified",
+            
         });
-    } else {
-        currentExpressionUrls = urlsForExpression(currentExpression, true);
     }
 
-    console.log(currentExpressionUrls);
+    return re;
 }
 
-let currentIndex = 0;
+const ttsUrl = import.meta.env.VITE_TTS_URL;
+function getSynthRecords(expression, limit = 6) {
+    const re = [];
+    for (let i = 1; i <= limit; i++) {
+        re.push({
+            url: `${ttsUrl}/${expression}/${i}.mp3?mode=temp`,
+            type: 'synth',
+            code: `synth-${i}`
+        });
+    }
+    return re;
+}
+
+async function getRecords(expression) {
+    const verified = await getVerifiedRecords(expression);
+    if (verified.length > 2) return verified;
+    if (verified.length > 0) return [...verified, ...getSynthRecords(expression, 2)];
+    return getSynthRecords(expression);
+}
+
+let actualExp = "";
+let trackList = null;
+const audio = new Audio();
+// audio.addEventListener('error', () => playNext());
+
+let trackI = 0;
 function playNext() {
-    if(currentIndex >= currentExpressionUrls.length) currentIndex = 0; 
+    trackI = (trackI + 1) % trackList.length;
 
-    console.log(currentIndex);
-    console.log(currentExpressionUrls[currentIndex]);
+    console.log(trackI);
+    console.log(trackList[trackI]);
 
-    audio.src = currentExpressionUrls[currentIndex++];
+    audio.src = trackList[trackI].url;
     audio.play();
 }
 
-async function play(expression) {
-    if(currentExpression !== expression) {
-        currentExpression = expression;
-        await findAudio(expression);
+export default async function speak(expression) {
+    if(actualExp !== expression) {
+        actualExp = expression;
+        trackList = await getRecords(expression);
     }
 
     playNext();
 }
-
-export { play };

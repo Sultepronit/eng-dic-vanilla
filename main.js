@@ -1,6 +1,6 @@
 import './style.css';
 import fetchArticle from './src/fetchArticle.js';
-import { play } from './src/pronunciation.js';
+import speak from './src/pronunciation.js';
 import history from './src/history.js';
 import fetchFreeDic from './src/fetchFreeDic.js';
 
@@ -210,4 +210,5 @@ document.addEventListener('keyup', (e) => {
     }
 });
 
-document.getElementById('speaker').addEventListener('click', () => play(theInput.value));
+document.getElementById('speaker')
+    .addEventListener('click', () => speak(theInput.value));
