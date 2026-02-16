@@ -47,7 +47,7 @@ export default defineConfig({
         runtimeCaching: [
           { // audio-cache
             urlPattern: ({ request }) => request.destination === 'audio',
-            handler: 'CacheFirst',
+            handler: 'StaleWhileRevalidate',
             options: {
               cacheName: 'audio-cache',
               expiration: {
