@@ -1,65 +1,69 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link rel="icon" href="/favicon.ico">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EngDic 2.9.2</title>
-    <meta name="description" content="My web dictionary, combining several good choises into a perfect one">
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-    <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32">
-    <link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16">
-    <meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
-    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
-    
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EngDic 2.9.3</title>
+    <meta
+      name="description"
+      content="My web dictionary, combining several good choises into a perfect one"
+    />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
+    <link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16" />
+    <meta
+      name="theme-color"
+      content="#FFFFFF"
+      media="(prefers-color-scheme: light)"
+    />
+    <meta
+      name="theme-color"
+      content="#000000"
+      media="(prefers-color-scheme: dark)"
+    />
+
     <script type="module" src="/main.js" defer></script>
-</head>
+  </head>
 
-<body>
+  <body>
     <header>
-        <div class="input-plus">
-            <!-- <form id="the-form" class="the-form">
-                <input type="text" id="the-input" class="the-input" list="history" autocomplete="off">
-                <textarea type="text" id="the-input" class="the-input" list="history" autocomplete="off"></textarea>
-                <textarea type="text" id="the-input" class="the-input" rows="1"></textarea>
-                <datalist id="history"></datalist>
-            </form> -->
+      <div class="input-plus">
 
-            <textarea type="text" id="the-input" class="the-input" rows="1"></textarea>
+        <textarea
+          type="text"
+          id="the-input"
+          class="the-input"
+          rows="1"
+        ></textarea>
 
-            <!-- <input type="text" id="the-input" class="the-input" list="history" autocomplete="off">
+        <!-- <input type="text" id="the-input" class="the-input" list="history" autocomplete="off">
             <datalist id="history"></datalist> -->
-            
-            <button class="speaker" id="speaker">🔊</button>
-        </div>
-    
-        <div class="tabs">
-            <p class="tab" id="main-tab">main</p>
-            <p class="tab" id="auxilary-tab">auxilary</p>
-            <p class="tab" id="translate-tab">
-                translate
-                <input type="checkbox" id="fix-translate">
-            </p> 
-            <p class="tab" id="uk-tab">тлумачний</p>
-        </div>
+
+        <button class="speaker" id="speaker">🔊</button>
+      </div>
+
+      <div class="tabs">
+        <p class="tab" id="main-tab">main</p>
+        <p class="tab" id="translate-tab">
+          translate
+          <input type="checkbox" id="fix-translate" />
+        </p>
+        <p class="tab" id="auxilary-tab">AI</p>
+        <p class="tab" id="uk-tab">тлумачний</p>
+      </div>
     </header>
-    
+
     <main>
-        <!-- <div class="e2u" id="e2u-article"></div>
-        <div class="glosbe" id="glosbe-article"></div>
-        <div class="google" id="google-article"></div> -->
-        <div id="main-article">
-            <div id="main-main"></div>
-            <div id="explanatory"></div>
-            <div id="main-aux"></div>
-        </div>
-        <div id="auxilary-article" class="hidden">
-            <!-- <p id="aux-translate" class="google"></p>
-            <hr>
-            <div id="ai-article"></div> -->
-        </div>
-        <div id="translate-article" class="google hidden"></div>
-        <div id="uk-article" class="hidden"></div>
+      <div id="main-article">
+        <div id="main-main"></div>
+        <div id="explanatory"></div>
+        <div id="main-aux"></div>
+      </div>
+      <div id="auxilary-article" class="hidden">
+      </div>
+      <div id="translate-article" class="google hidden"></div>
+      <div id="uk-article" class="hidden"></div>
     </main>
-</body>
+  </body>
 </html>
